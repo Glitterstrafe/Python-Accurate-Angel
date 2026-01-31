@@ -1,31 +1,76 @@
 
- 
 ```markdown
-.   * .       
+# 👁️ Python Accurate Angel (PAA)
+
+> *"Be Not Afraid. Be Traceable."*
+
+**Python Accurate Angel** is an **AI-Native Traceability System** designed to capture intent, relationships, and temporal history as first-class artifacts. 
+
+It wraps a rigorous engineering philosophy—**Event Sourcing** and **Explicit Relationships**—in a "Biblically Accurate" interface. It watches your work, analyzes your intent, and maintains a living, physics-based graph of your project's evolution.
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Version](https://img.shields.io/badge/Version-0.2_Alpha-ff69b4)
+![Architecture](https://img.shields.io/badge/Architecture-Event_Sourced-blue)
+
+```text
+      .   * .       
    * _ / \ _   * .
  .   /  o.o  \      *
     (  ( _ )  )   .  
    . \   |   /  * * \  |  /      . 
    .   \ | /   * * \|/  .       
          V           
- BE  NOT  AFRAID
- 
-# 👁️ Python Accurate Angel (PAA)
+ BE  NOT  AFRAID     
 
-> *"Be Not Afraid."*
+```
 
-**Python Accurate Angel** is an "AI-first" project observer designed to bring "Biblically Accurate Angel" omniscience to your local development environment. It tracks code changes in real-time, visualizes the hidden relationships between your files, and maintains a living context of your project's evolution.
+---
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
-![Aesthetic](https://img.shields.io/badge/Aesthetic-Pink%2FGold%2FBlack-ff69b4)
+## 📐 The Vision: AI-Native Traceability
 
-## ✨ Features
+Traditional tools force you to reconstruct "why" a change happened months after the fact (the "Context Reconstruction Tax"). PAA prepays this tax by capturing the context *while* you work.
 
-* **The Eyes (File Watcher):** Automatically detects changes in your project with smart debouncing (doesn't trigger while you type).
-* **The Voice (Interface):** A beautiful `rich` terminal interface using a **Pink/Gold/Black** aesthetic.
-* **The Wheels (Knowledge Graph):** Generates an interactive, physics-based HTML graph (`angel_traceability.html`) showing how your code files connect to AI "thoughts."
-* **The Halo (Safety):** Built-in kill switches and budget limiters to prevent runaway AI loops.
+### Core Principles
+
+1. **Explicit over Inferred:** The AI does not guess. It *proposes* relationships ("Is this a jitter fix?"), and the Human *confirms*. This prevents the Knowledge Graph from being corrupted by hallucinations.
+2. **Event-Sourced Truth:** The "Truth" of the project is not just the current code, but the immutable log of every thought, decision, and link that led here.
+3. **Context as Infrastructure:** Traceability is not a document you write at the end. It is a graph that grows alongside your code.
+
+---
+
+## ✨ System Architecture
+
+The system is composed of five distinct "Divine Modules":
+
+### 1. The Eyes (Observation Layer)
+
+* **Role:** Passive File Watching.
+* **Tech:** `watchdog` with intelligent debouncing.
+* **Function:** Detects "Work Units" (saves) and filters out noise (`.git`, `__pycache__`) so the system only reacts to meaningful intent.
+
+### 2. The Brain (Logic Core)
+
+* **Role:** Analysis & Proposal.
+* **Tech:** LLM Integration (OpenAI/Gemini/Claude).
+* **Function:** Analyzes the `git diff`, determines the likely intent, and **proposes** a link to the Knowledge Graph for human approval.
+
+### 3. The Wheels (Relationship Map)
+
+* **Role:** Visualization.
+* **Tech:** `NetworkX` & `Pyvis`.
+* **Function:** Generates an interactive, physics-based HTML graph (`angel_traceability.html`) showing the constellation of Files, Agents, and Decisions.
+
+### 4. The Chronicles (Event Log)
+
+* **Role:** Immutable History.
+* **Tech:** JSON Event Sourcing.
+* **Function:** Stores the sequence of all graph mutations, enabling "Time Travel" (replay) of the project's history.
+
+### 5. The Halo (Safety Controls)
+
+* **Role:** Operational Safety.
+* **Tech:** Budget Limiters & Kill Switches.
+* **Function:** Enforces a "Mana Pool" (daily cost limit) and monitors for an emergency stop file to prevent AI loops.
 
 ---
 
@@ -33,7 +78,7 @@
 
 ### 1. Installation
 
-Clone this repository and install the required "offerings" (dependencies):
+Clone the repository and install the "offerings" (dependencies):
 
 ```bash
 git clone [https://github.com/YOUR_USERNAME/PythonAccurateAngel.git](https://github.com/YOUR_USERNAME/PythonAccurateAngel.git)
@@ -44,7 +89,18 @@ pip install -r requirements.txt
 
 ### 2. Configuration (`angel_config.yaml`)
 
-The system is pre-configured with the "Ophanim-01" personality. You can adjust the **Safety Halo** or **Watch Paths** in `angel_config.yaml`.
+The system uses a YAML file to control the "Ophanim-01" personality and safety settings.
+
+```yaml
+angel_settings:
+  name: "Ophanim-01"
+theme:
+  primary: "#FF69B4" # Hot Pink
+  secondary: "#FFD700" # Gold
+halo:
+  max_daily_cost_usd: 1.00
+
+```
 
 ### 3. Summon the Angel
 
@@ -56,106 +112,24 @@ python main.py
 ```
 
 * **Trigger:** Edit and save any file in the directory.
-* **Observe:** Watch the terminal for Gold/Pink updates.
+* **Observe:** The terminal will notify you of the detected shift in the "Ether."
 * **Visualize:** Open `angel_traceability.html` in your browser to see the living graph.
 
 ---
 
-## 📂 Project Architecture
+## 🗺️ Roadmap
 
-If you are building this from scratch, here is the required structure:
-
-```text
-PythonAccurateAngel/
-├── angel_config.yaml       # Configuration & Theme
-├── main.py                 # Entry Point
-├── requirements.txt        # Dependencies
-└── angel/                  # The Divine Modules
-    ├── __init__.py         # (Empty)
-    ├── eyes.py             # Watchdog Logic
-    ├── voice.py            # Rich UI Wrapper
-    ├── wheels.py           # NetworkX/Pyvis Graph Generator
-    └── halo.py             # Safety & Budget Logic
-
-```
+* **Phase 1 (Complete):** File Watching, Visual Graph Generation, Safety Halo.
+* **Phase 2 (In Progress):** "Human-in-the-Loop" Confirmation Protocol (The `Y/N` Terminal Flow).
+* **Phase 3:** Connecting the "Brain" (LLM API) for intent analysis.
+* **Phase 4:** Temporal Replay (Time Travel view of the graph).
 
 ---
 
-## 📜 The Code Specification
+## 📜 License
 
-### `angel/voice.py` (The Interface)
-
-```python
-from rich.console import Console
-from rich.theme import Theme
-from rich.panel import Panel
-from rich.text import Text
-from datetime import datetime
-
-angel_theme = Theme({
-    "angel.pink": "#FF69B4",
-    "angel.gold": "#FFD700",
-    "angel.alert": "bold red on #FFD700"
-})
-console = Console(theme=angel_theme)
-
-class TheHerald:
-    def __init__(self, name="Angel"):
-        self.name = name
-    def speak(self, message, style="angel.pink"):
-        timestamp = datetime.now().strftime("%H:%M:%S")
-        console.print(f"[{timestamp}] [bold]{self.name}:[/] {message}", style=style)
-    def proclaim(self, title, content):
-        text = Text(content, justify="center", style="black")
-        panel = Panel(text, title=f"[bold #000000]{title}[/]", border_style="angel.gold", style="on #FF69B4", padding=(1, 2))
-        console.print(panel)
-    def alert(self, message):
-        console.print(f"👁️‍🗨️ [bold red]ALERT:[/] {message}", style="angel.gold")
+**MIT License** - Free to use, fork, and build upon. The Angel watches all.
 
 ```
-
-### `angel/wheels.py` (The Graph)
-
-```python
-import networkx as nx
-from pyvis.network import Network
-
-class Sephirot:
-    def __init__(self):
-        self.graph = nx.DiGraph()
-        self.c_agent = "#FF69B4"
-        self.c_file = "#FFD700"
-        self.c_edge = "#FFFFFF"
-
-    def add_event(self, agent_thought, affected_file):
-        thought_id = f"Thought_{len(self.graph.nodes)}"
-        self.graph.add_node(thought_id, label="Agent Action", title=agent_thought, color=self.c_agent, shape="dot", size=15)
-        if affected_file not in self.graph:
-            self.graph.add_node(affected_file, label=affected_file, color=self.c_file, shape="square", size=25)
-        self.graph.add_edge(thought_id, affected_file, color=self.c_edge)
-
-    def manifest(self, output_file="angel_traceability.html"):
-        net = Network(height="750px", width="100%", bgcolor="#000000", font_color="white")
-        net.from_nx(self.graph)
-        net.force_atlas_2based(gravity=-50, central_gravity=0.01, spring_length=100, spring_strength=0.08)
-        net.save_graph(output_file)
-        return output_file
-
-```
-
-*(Note: Full source code for `eyes.py`, `halo.py`, and `main.py` is included in the repo source files.)*
-
-```
-
-### One Final Detail: `.gitignore`
-Before you commit, make sure you create a file named `.gitignore` in the root folder and add this to it. This prevents you from accidentally uploading the graph itself or your virtual environment settings:
-
-```text
-__pycache__/
-*.pyc
-.env
-.DS_Store
-angel_traceability.html
-venv/
 
 ```
