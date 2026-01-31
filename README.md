@@ -1,3 +1,6 @@
+
+ 
+```markdown
 .   * .       
    * _ / \ _   * .
  .   /  o.o  \      *
@@ -7,7 +10,6 @@
          V           
  BE  NOT  AFRAID
  
-```markdown
 # 👁️ Python Accurate Angel (PAA)
 
 > *"Be Not Afraid."*
