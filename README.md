@@ -159,5 +159,3 @@ angel_traceability.html
 venv/
 
 ```
-
-Would you like me to whip up a quick "logo" description you can put in the repo, or are you good to go?
