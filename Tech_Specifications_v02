@@ -1,0 +1,76 @@
+# 📐 Technical Specifications v02: The AI-Native Traceability System
+**Version:** 02 (Alignment Phase)
+**Date:** January 31, 2026
+**Codename:** Python Accurate Angel (PAA)
+
+## 1. Vision & Core Philosophy
+This system is an **AI-native traceability engine** designed to capture intent, relationships, and temporal history as first-class artifacts.
+* **Principle 1: Explicit over Inferred.** The system does not "guess" relationships; it proposes them for human confirmation.
+* **Principle 2: Event-Sourced.** The "Truth" of the project is the sequence of events (The Log), not just the current file state.
+* **Principle 3: Context as Infrastructure.** Traceability is not a document you write at the end; it is a graph that grows while you work.
+
+## 2. System Architecture
+
+### Layer 1: The Authoring Layer (The Eyes)
+* **Component:** `angel/eyes.py`
+* **Role:** Passive Observation.
+* **Logic:**
+    * Monitors filesystem events (Create, Modify, Delete).
+    * **Debouncing:** Buffers high-frequency keypresses into single "Work Units."
+    * **Filtering:** Ignores non-authoring artifacts (`.git`, `__pycache__`).
+
+### Layer 2: The Logic Core (The Brain)
+* **Component:** `angel/brain.py` (Planned)
+* **Role:** Analysis & Proposal.
+* **Logic:**
+    * Receives a "Work Unit" (Diff).
+    * Queries the **LLM** (Claude/Gemini) with the prompt: *"What is the intent of this change?"*
+    * **CRITICAL CHANGE:** Instead of writing to the graph immediately, it generates a **Proposal**: *"I believe this code change links to Requirement #4 (Jitter Reduction). Confirm? [Y/n]"*
+
+### Layer 3: The Event Log (The Chronicles)
+* **Component:** `angel_chronicles.json`
+* **Role:** The Immutable History.
+* **Schema:**
+    ```json
+    {
+      "event_id": "uuid",
+      "timestamp": "ISO8601",
+      "actor": "Human_Dev" | "AI_Agent",
+      "action_type": "CODE_MODIFICATION" | "RELATIONSHIP_LINK",
+      "artifacts": ["motion_pipe.py"],
+      "justification": "Fixed smoothing algorithm",
+      "explicit_approval": true
+    }
+    ```
+
+### Layer 4: The Relationship Map (The Wheels)
+* **Component:** `angel/wheels.py`
+* **Role:** The Visualized Truth.
+* **Logic:**
+    * Reads the **Event Log** to reconstruct the graph state.
+    * **Nodes:** Files, Requirements, Decisions, Agents.
+    * **Edges:** "Implements", "Modifies", "Deprecates".
+    * **Visualization:** Interactive HTML/Pyvis graph (Pink/Gold aesthetic).
+
+### Layer 5: Safety & Control (The Halo)
+* **Component:** `angel/halo.py`
+* **Role:** Operational Constraints.
+* **Features:**
+    * **Mana Pool:** Daily token budget cap.
+    * **Emergency Stop:** Physical file (`STOP_ANGEL`) that kills the process.
+
+## 3. Workflow (The "Human-in-the-Loop" Loop)
+1.  **Work:** Developer edits `main.py`.
+2.  **Observe:** PAA detects the save.
+3.  **Analyze:** PAA compares the diff to the existing Graph.
+4.  **Propose:** PAA asks via Terminal: *"Link this change to 'User Login Feature'? [Y/N]"*
+5.  **Commit:**
+    * If **Y**: Event logged as `CONFIRMED_LINK`.
+    * If **N**: Developer provides a quick 3-word tag.
+6.  **Visualize:** The Graph updates instantly.
+
+## 4. Implementation Roadmap
+* [x] **Phase 1:** File Watching & Visualization (MVP Complete).
+* [ ] **Phase 2:** Connect LLM API (`brain.py`).
+* [ ] **Phase 3:** Implement "Proposal/Confirmation" flow in Terminal.
+* [ ] **Phase 4:** Build "Time Travel" replay of the Graph.
