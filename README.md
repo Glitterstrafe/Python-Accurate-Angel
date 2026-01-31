@@ -125,6 +125,11 @@ python main.py
 * **Phase 4:** Temporal Replay (Time Travel view of the graph).
 
 ---
+## 🤝 Acknowledgments
+
+* **Brock Webb** – *Architectural Vision & Inspiration*
+    * For the original "AI-Native Traceability" specification that defines the logical core and epistemology of this system. The "Explicit Truth" and "Event Sourcing" philosophies are derived from his foundational work.
+---
 
 ## 📜 License
 
