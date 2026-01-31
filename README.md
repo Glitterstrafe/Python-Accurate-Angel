@@ -1,4 +1,12 @@
-
+.   * .       
+   * _ / \ _   * .
+ .   /  o.o  \      *
+    (  ( _ )  )   .  
+   . \   |   /  * * \  |  /      . 
+   .   \ | /   * * \|/  .       
+         V           
+ BE  NOT  AFRAID
+ 
 ```markdown
 # 👁️ Python Accurate Angel (PAA)
 
