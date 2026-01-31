@@ -126,9 +126,9 @@ python main.py
 
 ---
 ## 🤝 Acknowledgments
-
+Inspiration:
 * **Brock Webb** – *Architectural Vision & Inspiration*
-    * For the original "AI-Native Traceability" specification that defines the logical core and epistemology of this system. The "Explicit Truth" and "Event Sourcing" philosophies are derived from his foundational work.
+    * For the original inspiring linkedin post asking if this could/should be built and for "AI-Native Traceability" specification that defines the logical core and epistemology of this system. The "Explicit Truth" and "Event Sourcing" philosophies are derived from his foundational work.
 ---
 
 ## 📜 License
