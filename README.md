@@ -4,7 +4,7 @@
 
 > *"Be Not Afraid."*
 
-**Python Accurate Angel** is an "AI-first" project observer designed to bring "Biblically Accurate" omniscience to your local development environment. It tracks code changes in real-time, visualizes the hidden relationships between your files, and maintains a living context of your project's evolution.
+**Python Accurate Angel** is an "AI-first" project observer designed to bring "Biblically Accurate Angel" omniscience to your local development environment. It tracks code changes in real-time, visualizes the hidden relationships between your files, and maintains a living context of your project's evolution.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
