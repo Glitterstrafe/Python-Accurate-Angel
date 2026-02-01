@@ -1,117 +1,84 @@
 import networkx as nx
 from pyvis.network import Network
-from typing import List, Optional
+from typing import List
 from .types import AngelEvent, EdgeDef
 
 
 class Sephirot:
     """
-    The Knowledge Graph. Tracks the lineage of code.
-    State is derived entirely from the Chronicles (event log).
+    The Graph Visualizer.
+    Now with 100% more Glow and Cyber-Aesthetics.
     """
-
     def __init__(self):
         self.graph = nx.DiGraph()
-        # Theme colors
-        self.c_file = "#FFD700"     # Gold - Files
-        self.c_intent = "#FF69B4"   # Pink - Intents
-        self.c_agent = "#87CEEB"    # Sky Blue - Agent actions
-        self.c_edge = "#FFFFFF"     # White - Connections
 
-        # Edge type colors
-        self.edge_colors = {
-            "implements": "#00FF00",  # Green
-            "modifies": "#FFA500",    # Orange
-            "deprecates": "#FF0000",  # Red
-            "relates_to": "#FFFFFF"   # White
-        }
+        # --- THE PALETTE ---
+        self.c_file = "#FFD700"   # Gold (Matter)
+        self.c_intent = "#FF69B4" # Hot Pink (Spirit)
+        self.c_edge = "rgba(255, 255, 255, 0.6)" # Translucent White
 
     def clear(self):
-        """Clear the graph for rebuilding."""
         self.graph.clear()
 
-    def add_file_node(self, filename: str):
-        """Add a file node (Gold square)."""
-        if filename not in self.graph:
+    def rebuild_from_chronicles(self, events: List[AngelEvent]):
+        """Replays history to build current state."""
+        self.graph.clear()
+        for event in events:
+            if event.action_type == "PROPOSAL_CONFIRMED" and event.edge:
+                self._add_connection(
+                    event.edge.source,
+                    event.edge.target,
+                    event.edge.edge_type
+                )
+
+    def add_edge(self, edge: EdgeDef):
+        """Add an edge from a proposal confirmation."""
+        self._add_connection(edge.source, edge.target, edge.edge_type)
+
+    def _add_connection(self, source: str, target: str, edge_label: str):
+        # 1. Add File Node (Gold Square with Glow)
+        if source not in self.graph:
             self.graph.add_node(
-                filename,
-                label=filename,
+                source,
+                label=source,
                 color=self.c_file,
                 shape="square",
                 size=25,
+                title=f"File: {source}",
+                shadow={'enabled': True, 'color': self.c_file, 'size': 15, 'x': 0, 'y': 0},
+                font={'face': 'Courier New', 'color': 'white', 'size': 16},
                 node_type="file"
             )
 
-    def add_intent_node(self, intent_label: str):
-        """Add an intent node (Pink circle)."""
-        if intent_label not in self.graph:
+        # 2. Add Intent Node (Pink Dot with Glow)
+        if target not in self.graph:
             self.graph.add_node(
-                intent_label,
-                label=intent_label,
+                target,
+                label=target,
                 color=self.c_intent,
                 shape="dot",
-                size=20,
+                size=15,
+                title=f"Intent: {target}",
+                shadow={'enabled': True, 'color': self.c_intent, 'size': 20, 'x': 0, 'y': 0},
+                font={'face': 'Courier New', 'color': 'white', 'size': 14},
                 node_type="intent"
             )
 
-    def add_edge(self, edge: EdgeDef):
-        """Add a typed edge between nodes."""
-        # Ensure both nodes exist
-        self.add_file_node(edge.source)
-        self.add_intent_node(edge.target)
+        # 3. Add Edge (White Fiber Optic)
+        # Increase width based on 'weight' (how many times confirmed)
+        weight = 1
+        if self.graph.has_edge(source, target):
+            weight = self.graph[source][target].get('width', 1) + 1
 
-        # Add the edge with styling
-        edge_color = self.edge_colors.get(edge.edge_type, self.c_edge)
         self.graph.add_edge(
-            edge.source,
-            edge.target,
-            color=edge_color,
-            title=edge.edge_type,
-            edge_type=edge.edge_type
+            source,
+            target,
+            width=weight,
+            title=f"Strength: {weight}",
+            label=edge_label,
+            color={'color': 'white', 'opacity': 0.6},
+            font={'align': 'middle', 'face': 'Courier New', 'color': 'gray', 'size': 10}
         )
-
-    def add_event(self, agent_thought: str, affected_file: str):
-        """
-        Legacy method: Links a thought to a file.
-        Kept for backward compatibility.
-        """
-        thought_id = f"Thought_{len([n for n in self.graph.nodes if n.startswith('Thought_')])}"
-
-        self.graph.add_node(
-            thought_id,
-            label="Agent Action",
-            title=agent_thought,
-            color=self.c_agent,
-            shape="dot",
-            size=15,
-            node_type="action"
-        )
-
-        self.add_file_node(affected_file)
-        self.graph.add_edge(thought_id, affected_file, color=self.c_edge)
-
-    def rebuild_from_chronicles(self, events: List[AngelEvent]):
-        """
-        Rebuild the entire graph state from the event log.
-        This is the core of event sourcing - state derived from events.
-        """
-        self.clear()
-
-        for event in events:
-            if event.action_type == "PROPOSAL_CONFIRMED" and event.edge:
-                self.add_edge(event.edge)
-            elif event.action_type == "INTENT_CREATED" and event.intent_label:
-                self.add_intent_node(event.intent_label)
-            elif event.action_type == "WORK_UNIT_CAPTURED" and event.file_path:
-                self.add_file_node(event.file_path)
-
-    def rebuild_to_timestamp(self, events: List[AngelEvent], timestamp: str):
-        """
-        Rebuild graph state up to a specific timestamp.
-        Enables "Time Travel" feature.
-        """
-        filtered = [e for e in events if e.timestamp <= timestamp]
-        self.rebuild_from_chronicles(filtered)
 
     def get_stats(self) -> dict:
         """Get graph statistics."""
@@ -124,34 +91,39 @@ class Sephirot:
         }
 
     def manifest(self, output_file: str = "angel_traceability.html"):
-        """Generates the interactive HTML visualization."""
-        net = Network(
-            height="750px",
-            width="100%",
-            bgcolor="#000000",
-            font_color="white"
-        )
-
-        # Convert NetworkX graph to Pyvis
+        """Generate the cyber-aesthetic HTML visualization."""
+        # Dark Mode Background
+        net = Network(height="100vh", width="100%", bgcolor="#000000", font_color="white")
         net.from_nx(self.graph)
 
-        # Physics options for "floaty space" feel
-        net.force_atlas_2based(
-            gravity=-50,
-            central_gravity=0.01,
-            spring_length=100,
-            spring_strength=0.08
-        )
-
-        # Add legend
-        net.add_node(
-            "legend_file", label="File", color=self.c_file,
-            shape="square", size=10, x=-200, y=-200, fixed=True
-        )
-        net.add_node(
-            "legend_intent", label="Intent", color=self.c_intent,
-            shape="dot", size=10, x=-200, y=-170, fixed=True
-        )
+        # --- THE PHYSICS ENGINE ---
+        # BarnesHut is stable for large graphs with gentle breathing motion
+        options = """
+        {
+          "nodes": {
+            "borderWidth": 2,
+            "borderWidthSelected": 4
+          },
+          "edges": {
+            "smooth": {
+              "type": "continuous",
+              "forceDirection": "none"
+            }
+          },
+          "physics": {
+            "barnesHut": {
+              "gravitationalConstant": -3000,
+              "centralGravity": 0.3,
+              "springLength": 150,
+              "springConstant": 0.04,
+              "damping": 0.09,
+              "avoidOverlap": 0.2
+            },
+            "minVelocity": 0.75
+          }
+        }
+        """
+        net.set_options(options)
 
         net.save_graph(output_file)
         return output_file
