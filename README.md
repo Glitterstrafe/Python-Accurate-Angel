@@ -6,7 +6,7 @@
 
 **Python Accurate Angel** is an **AI-Native Traceability System** designed to capture intent, relationships, and temporal history as first-class artifacts. 
 
-It wraps a rigorous engineering philosophy—**Event Sourcing** and **Explicit Relationships**—in a "Biblically Accurate" interface. It watches your work, analyzes your intent, and maintains a living, physics-based graph of your project's evolution.
+It wraps a rigorous engineering philosophy—**Event Sourcing** and **Explicit Relationships**. It watches your work, analyzes your intent, and maintains a living, physics-based graph of your project's evolution.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Version](https://img.shields.io/badge/Version-0.2_Alpha-ff69b4)
