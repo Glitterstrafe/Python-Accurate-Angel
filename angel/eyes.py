@@ -1,6 +1,7 @@
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Timer
+import os
 
 
 class TheAllSeeingEye(FileSystemEventHandler):
@@ -12,28 +13,45 @@ class TheAllSeeingEye(FileSystemEventHandler):
         self.last_event_path = None
 
     def _is_ignored(self, path):
+        # Ignore directories and temp files
+        if os.path.isdir(path):
+            return True
+
+        # Check config ignore patterns
         for pattern in self.ignore_patterns:
             clean_pattern = pattern.replace("*", "")
             if clean_pattern in path:
                 return True
+
+        # Explicit ignore for the database/log files to prevent loops
+        if "angel_chronicles" in path or "angel_state" in path:
+            return True
+
         return False
 
-    def _process_event(self):
-        """Trigger the callback after silence."""
-        if self.last_event_path:
-            self.callback(self.last_event_path)
-
-    def on_modified(self, event):
-        if event.is_directory or self._is_ignored(event.src_path):
+    def _trigger_debounce(self, file_path):
+        """Standardized trigger logic for ANY event type."""
+        if self._is_ignored(file_path):
             return
 
-        # Reset timer on new keystroke
+        # Cancel existing timer to reset the clock (debounce)
         if self.timer:
             self.timer.cancel()
 
-        self.last_event_path = event.src_path
-        self.timer = Timer(self.debounce_interval, self._process_event)
+        self.last_event_path = file_path
+        self.timer = Timer(self.debounce_interval, lambda: self.callback(self.last_event_path))
         self.timer.start()
+
+    def on_modified(self, event):
+        self._trigger_debounce(event.src_path)
+
+    def on_moved(self, event):
+        # Atomic saves often look like moves (dest_path is the real file)
+        self._trigger_debounce(event.dest_path)
+
+    def on_created(self, event):
+        # New files should also trigger the angel
+        self._trigger_debounce(event.src_path)
 
 
 class VisionSystem:

@@ -22,6 +22,7 @@ vision:
     - "*.tmp*"          # Ignore temp files
     - "*~"              # Ignore backup files
     - "*.jsonl"         # Don't watch the chronicles
+    - "*vis-network*"   # Don't watch pyvis output
 
 brain:
   provider: "mock"      # Options: mock, anthropic
