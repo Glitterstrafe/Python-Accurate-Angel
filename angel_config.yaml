@@ -14,19 +14,21 @@ vision:
   watch_path: "./"      # The folder to watch (defaults to current)
   debounce_seconds: 2.0 # Time to wait after typing stops
   ignore_patterns:
+    # System/build noise
     - "*.git*"
     - "*__pycache__*"
-    - "*.env"
     - "*.DS_Store"
-    - "*.html"          # Don't watch the graph output
-    - "*.tmp*"          # Ignore temp files
-    - "*~"              # Ignore backup files
-    - "*.jsonl"         # Don't watch the chronicles
-    - "*vis-network*"   # Don't watch pyvis output
+    - "*.env"           # Secrets - don't track
+    # Editor temp files
+    - "*.tmp*"
+    - "*~"
+    # Angel's own output (prevents infinite loop)
+    - "*angel_traceability*"
+    - "*angel_chronicles*"
 
 brain:
   provider: "mock"      # Options: mock, anthropic
-  auto_confirm: false   # Set true for headless/CI mode (skips Y/N prompt)
+  auto_confirm: true    # Set true for headless/CI mode (skips Y/N prompt)
   # Set ANTHROPIC_API_KEY env var to use Claude
 
 halo:
