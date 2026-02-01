@@ -1,0 +1,33 @@
+angel_settings:
+  name: "Ophanim-01"
+  version: "2.0.0"
+
+theme:
+  # The "Biblically Cute" Palette
+  primary: "#FF69B4"    # Hot Pink (The Mind)
+  secondary: "#FFD700"  # Gold (The Glory)
+  background: "#000000" # Void Black
+  alert: "#FF1493"      # Deep Pink (Errors)
+  text: "#FFFFFF"       # Starlight White
+
+vision:
+  watch_path: "./"      # The folder to watch (defaults to current)
+  debounce_seconds: 2.0 # Time to wait after typing stops
+  ignore_patterns:
+    - "*.git*"
+    - "*__pycache__*"
+    - "*.env"
+    - "*.DS_Store"
+    - "*.html"          # Don't watch the graph output
+    - "*.tmp*"          # Ignore temp files
+    - "*~"              # Ignore backup files
+    - "*.jsonl"         # Don't watch the chronicles
+
+brain:
+  provider: "mock"      # Options: mock, anthropic
+  auto_confirm: false   # Set true for headless/CI mode (skips Y/N prompt)
+  # Set ANTHROPIC_API_KEY env var to use Claude
+
+halo:
+  max_daily_cost_usd: 1.00
+  emergency_stop_file: "STOP_ANGEL" # Create this file to kill the process
