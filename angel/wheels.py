@@ -1,3 +1,4 @@
+import html
 import networkx as nx
 from pyvis.network import Network
 from typing import List
@@ -36,15 +37,19 @@ class Sephirot:
         self._add_connection(edge.source, edge.target, edge.edge_type)
 
     def _add_connection(self, source: str, target: str, edge_label: str):
+        safe_source = html.escape(source)
+        safe_target = html.escape(target)
+        safe_edge_label = html.escape(edge_label)
+
         # 1. Add File Node (Gold Square with Glow)
         if source not in self.graph:
             self.graph.add_node(
                 source,
-                label=source,
+                label=safe_source,
                 color=self.c_file,
                 shape="square",
                 size=25,
-                title=f"File: {source}",
+                title=f"File: {safe_source}",
                 shadow={'enabled': True, 'color': self.c_file, 'size': 15, 'x': 0, 'y': 0},
                 font={'face': 'Courier New', 'color': 'white', 'size': 16},
                 node_type="file"
@@ -54,11 +59,11 @@ class Sephirot:
         if target not in self.graph:
             self.graph.add_node(
                 target,
-                label=target,
+                label=safe_target,
                 color=self.c_intent,
                 shape="dot",
                 size=15,
-                title=f"Intent: {target}",
+                title=f"Intent: {safe_target}",
                 shadow={'enabled': True, 'color': self.c_intent, 'size': 20, 'x': 0, 'y': 0},
                 font={'face': 'Courier New', 'color': 'white', 'size': 14},
                 node_type="intent"
@@ -75,7 +80,7 @@ class Sephirot:
             target,
             width=weight,
             title=f"Strength: {weight}",
-            label=edge_label,
+            label=safe_edge_label,
             color={'color': 'white', 'opacity': 0.6},
             font={'align': 'middle', 'face': 'Courier New', 'color': 'gray', 'size': 10}
         )

@@ -1,6 +1,7 @@
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Timer
+import fnmatch
 import os
 
 
@@ -18,13 +19,17 @@ class TheAllSeeingEye(FileSystemEventHandler):
             return True
 
         # Check config ignore patterns
+        filename = os.path.basename(path)
         for pattern in self.ignore_patterns:
-            clean_pattern = pattern.replace("*", "")
-            if clean_pattern in path:
+            if fnmatch.fnmatch(filename, pattern) or fnmatch.fnmatch(path, pattern):
                 return True
 
-        # Explicit ignore for the database/log files to prevent loops
-        if "angel_chronicles" in path or "angel_state" in path:
+        # Explicit ignore for the database/log files AND output to prevent loops
+        if (
+            "angel_chronicles" in filename
+            or "angel_state" in filename
+            or filename == "angel_traceability.html"
+        ):
             return True
 
         return False

@@ -31,6 +31,10 @@ brain:
   auto_confirm: true    # Set true for headless/CI mode (skips Y/N prompt)
   # Set ANTHROPIC_API_KEY env var to use Claude
 
+chronicles:
+  read_limit: 1000      # Max events loaded on startup (set to null for all)
+
 halo:
   max_daily_cost_usd: 1.00
   emergency_stop_file: "STOP_ANGEL" # Create this file to kill the process
+  usage_file: "angel_usage.json"    # Persist spend across restarts

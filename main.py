@@ -3,6 +3,7 @@ import yaml
 import os
 from rich.prompt import Prompt, Confirm
 from rich.table import Table
+from rich.text import Text
 
 from angel.voice import TheHerald, console
 from angel.eyes import VisionSystem
@@ -24,10 +25,14 @@ brain = TheBrain(config)
 scribe = TheScribe("angel_chronicles.jsonl")
 
 # 3. Rebuild state from chronicles on startup
-existing_events = scribe.read_all()
+read_limit = config.get("chronicles", {}).get("read_limit", 1000)
+existing_events = scribe.read_all(limit=read_limit)
 if existing_events:
     wheels.rebuild_from_chronicles(existing_events)
-    voice.speak(f"Restored {len(existing_events)} events from the Chronicles.", style="angel.gold")
+    voice.speak(
+        f"Restored {len(existing_events)} recent events from the Chronicles.",
+        style="angel.gold"
+    )
 
 
 def display_proposal(proposal):
@@ -40,7 +45,7 @@ def display_proposal(proposal):
     table.add_row("Intent", proposal.edge.target)
     table.add_row("Relationship", proposal.edge.edge_type)
     table.add_row("Confidence", f"{proposal.confidence:.0%}")
-    table.add_row("Rationale", proposal.rationale)
+    table.add_row("Rationale", Text(proposal.rationale))
     if proposal.diff_summary:
         table.add_row("Changes", proposal.diff_summary)
 
